@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def read_csv():
     # Keeps prompting user to enter file location until a valid file location is entered
     while True:
@@ -13,6 +14,8 @@ def read_csv():
             dataSet = pd.read_csv(file, encoding="ISO-8859-1", names=category.index, dtype="unicode").fillna(0)
             return dataSet, category.index, True
         except FileNotFoundError:
+            return False
+        except pd.errors.ParserError:
             return False
 
 
@@ -29,6 +32,8 @@ def read_xlsx():
             dataSet = pd.read_excel(file, names=category.index).fillna(0)
             return dataSet, category.index, True
         except FileNotFoundError:
+            return False
+        except pd.errors.ParserError:
             return False
 
 
