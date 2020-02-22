@@ -11,8 +11,8 @@ def read_csv(file, feature):
             category = pd.read_csv(feature, encoding="ISO-8859-1", index_col=1)
             # Reads data from file and stores in dataSet variable with category as column names
             dataSet = pd.read_csv(file, encoding="ISO-8859-1", names=category.index, dtype="unicode").fillna(0)
-            # Change the name of the text file to the name that user input WIP
-            to_text(dataSet, "data.txt")
+            # Change the name of the text file to the name that user input
+            to_text(dataSet, get_filename(file, ".csv"))
             return dataSet, category.index, success
         except FileNotFoundError:
             success = False
@@ -32,8 +32,8 @@ def read_xlsx(file, feature):
             category = pd.read_csv(feature, encoding="ISO-8859-1", index_col=1)
             # Reads data from file and stores in dataSet variable with category as column names
             dataSet = pd.read_excel(file, names=category.index).fillna(0)
-            # Change the name of the text file to the name that user input WIP
-            to_text(dataSet, "data.txt")
+            # Change the name of the text file to the name that user input
+            to_text(dataSet, get_filename(file, ".xlsx"))
             return dataSet, category.index, success
         except FileNotFoundError:
             success = False
@@ -59,6 +59,16 @@ def show_output(data):
         print(data.iloc[i:i+5])
         input("Press enter to read more...")
         i += 5
+
+ 
+def get_filename(filename, filetype):
+    s = "\\"
+    if s in filename:
+        filename = filename.split(s)[-1].replace(filetype, ".txt")
+        return filename
+    else:
+        filename = filename.replace(filetype, ".txt")
+        return filename
 
 
 # Calls function if file is called as a script
