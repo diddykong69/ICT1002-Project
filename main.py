@@ -107,6 +107,16 @@ class MainWindow(QMainWindow):
             if self.read_success:
                 print(self.categories)
 
+    def closeEvent(self, event):
+        exit_confirm = QMessageBox.question(self, "Confirm Exit?",
+                                            "Are you sure you want to quit the program?",
+                                            QMessageBox.Yes | QMessageBox.No)
+        if exit_confirm == QMessageBox.Yes:
+            print("Qutting application.")
+            event.accept()
+        else:
+            event.ignore()
+
 
 # Create the GUI app
 app = QApplication(sys.argv)
