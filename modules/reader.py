@@ -49,20 +49,20 @@ def to_text(data, location):
     csv_file = data.to_csv("data.csv", index=False)
     with open(location, "w") as output_file:
         with open("data.csv", "r") as input_file:
-            [output_file.write("\t".join(row) + '\n') for row in csv.reader(input_file)]
+            [output_file.write("\t".join(row)+'\n') for row in csv.reader(input_file)]
         output_file.close()
-
-
+        
+ 
 # When function is called, prints output to the user in a user friendly manner
 def show_output(data):
     lines = len(data.index)
     i = 0
     while i < lines:
-        print(data.iloc[i:i + 5])
+        print(data.iloc[i:i+5])
         input("Press enter to read more...")
         i += 5
 
-
+ 
 def get_filename(filename, filetype):
     s = "\\"
     if s in filename:
