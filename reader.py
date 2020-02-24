@@ -1,6 +1,7 @@
 import pandas as pd
 import csv
 
+
 def read_csv(file, feature):
     success = True
     while True:
@@ -41,7 +42,8 @@ def read_xlsx(file, feature):
         except pd.errors.ParserError:
             success = False
             return success
-  
+
+
 # Outputs data of file read into a text file for database purposes
 def to_text(data, location):
     csv_file = data.to_csv("data.csv", index=False)
