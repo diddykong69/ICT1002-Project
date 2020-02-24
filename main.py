@@ -1,20 +1,28 @@
 import sys
 import os
-
-from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-
+sys.path.insert(0, os.path.abspath('./ui/'))
 sys.path.insert(0, os.path.abspath('./modules/'))
+sys.path.insert(0, os.path.abspath('./model/'))
 from modules.reader import *
+from modules.thread import *
+from model.DataModel import *
+from ui.MainWindow import Ui_MainWindow
 
 TITLE = "GOTCHA"
 
 
-# Main GUI class
-class MainWindow(QMainWindow):
-    def __init__(self, title, dimensions, *args, **kwargs):
-        super(MainWindow, self).__init__(*args, **kwargs)
+class MainWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self, title, dimensions):
+        QMainWindow.__init__(self)
+        Ui_MainWindow.__init__(self)
+        self.setupUi(self)
+        self.model = DataModel(pd.DataFrame([["No file selected."]]))
+        self.threadpool = QThreadPool()
+        print("Multithreading with maximum %d threads" % self.threadpool.maxThreadCount())
+        self.data_table.setSortingEnabled(True)
+
+        self.data_table.setModel(self.model)
 
         self.log_file_name = self.features_file_name = self.data = self.categories = self.read_success = ''
         self.file_readers = {
@@ -23,45 +31,16 @@ class MainWindow(QMainWindow):
             "": self.none_reader
         }
 
-        widget = QWidget()
-        self.layout = QGridLayout()
-
-        self.log_label = QLabel(widget)
-        self.log_label.setText('No file selected.')
-        self.log_label.adjustSize()
-
-        self.layout.addItem(QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum), 1, 0)
-        self.layout.addWidget(self.log_label, 1, 1)
-
-        log_button = self.create_btn('Select Log File', widget, self.open_log_file)
-        self.layout.addWidget(log_button, 1, 2)
-        self.layout.addItem(QSpacerItem(0, 0, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum), 1, 3)
-
-        self.features_label = QLabel(widget)
-        self.features_label.setText('No file selected.')
-        self.features_label.adjustSize()
-
-        self.layout.addWidget(self.features_label, 2, 1)
-
-        features_button = self.create_btn('Select Features File', widget, self.open_features_file)
-        self.layout.addWidget(features_button, 2, 2)
-
-        read_button = self.create_btn('Read Log File', widget, self.read_file)
-        self.layout.addWidget(read_button, 3, 2)
+        self.log_button.pressed.connect(self.open_log_file)
+        self.features_button.pressed.connect(self.open_features_file)
+        self.read_button.pressed.connect(self.read_file)
 
         self.setGeometry(*dimensions)
-        widget.showFullScreen()
-        widget.setLayout(self.layout)
 
         self.setWindowTitle(title)
-        self.setCentralWidget(widget)
 
-    @staticmethod
-    def create_btn(btn_text, widget, function):
-        button = QPushButton(btn_text, widget)
-        button.setToolTip(btn_text)
-        button.clicked.connect(function)
-        return button
+    def set_model(self, model):
+        self.model = model
 
     @pyqtSlot()
     def open_log_file(self):
@@ -91,34 +70,50 @@ class MainWindow(QMainWindow):
     def read(reader, log, features):
         return reader(log, features)
 
+    def show_data(self, data):
+        self.data, self.categories, self.read_success = data
+        self.model = DataModel(data=self.data) if self.read_success else DataModel(pd.DataFrame([["No file selected."]]))
+        self.data_table.setModel(self.model)
+
+    def thread_complete(self):
+        print('Thread complete.')
+
     @pyqtSlot()
     def read_file(self):
+        self.model = DataModel(pd.DataFrame([["Reading data..."]]))
+        self.data_table.setModel(self.model)
+        # QApplication.processEvents()
         log_file_name = self.log_file_name
         features_file_name = self.features_file_name
         if log_file_name != "" and features_file_name != "":
             log_ext = os.path.splitext(log_file_name)[1]
-            print(log_ext)
             # features_ext = os.path.splitext(self._features_file_name)
-            print(self.file_readers.get(log_ext))
-            self.data, self.categories, self.read_success = self.read(
+            worker = Worker(self.read, (
                 self.file_readers.get(log_ext),
                 log_file_name,
-                features_file_name)
-            if self.read_success:
-                print(self.categories)
+                features_file_name))
+            worker.signals.result.connect(self.show_data)
+            worker.signals.finished.connect(self.thread_complete)
+            self.threadpool.start(worker)
+            # self.data, self.categories, self.read_success = self.read(
+            #     self.file_readers.get(log_ext),
+            #     log_file_name,
+            #     features_file_name)
+            # if self.read_success:
+            #     self.model = DataModel(data=self.data)
+            #     self.data_table.setModel(self.model)
 
     def closeEvent(self, event):
         exit_confirm = QMessageBox.question(self, "Confirm Exit?",
                                             "Are you sure you want to quit the program?",
                                             QMessageBox.Yes | QMessageBox.No)
         if exit_confirm == QMessageBox.Yes:
-            print("Qutting application.")
+            print("Quitting application.")
             event.accept()
         else:
             event.ignore()
 
 
-# Create the GUI app
 app = QApplication(sys.argv)
 
 # Get screen available size
@@ -127,7 +122,7 @@ available_size = screen.availableSize()
 width, height = available_size.width(), available_size.height()
 
 # Size of app: 640 x 480
-expected_width, expected_height = 640, 480
+expected_width, expected_height = 800, 600
 
 # Calculate screen position to
 # centralise app
@@ -137,9 +132,8 @@ position_x, position_y = (width - expected_width) / 2, (height - expected_height
 # GUI app
 window = MainWindow(TITLE, (position_x, position_y, expected_width, expected_height))
 
-# Show the app
+
+# window = MainWindow()
 window.show()
 
-# When exiting application, exit
-# with the exit status code of GUI app
 sys.exit(app.exec_())
