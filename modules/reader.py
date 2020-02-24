@@ -13,7 +13,8 @@ def read_csv(file, feature):
             # Reads data from file and stores in dataSet variable with category as column names
             dataSet = pd.read_csv(file, encoding="ISO-8859-1", names=category.index, dtype="unicode").fillna(0)
             # Change the name of the text file to the name that user input
-            to_text(dataSet, get_filename(file, ".csv"))
+            filename = get_filename(file, ".csv")
+            to_text(dataSet, filename)
             return dataSet, category.index, success
         except FileNotFoundError:
             success = False
@@ -34,7 +35,8 @@ def read_xlsx(file, feature):
             # Reads data from file and stores in dataSet variable with category as column names
             dataSet = pd.read_excel(file, names=category.index).fillna(0)
             # Change the name of the text file to the name that user input
-            to_text(dataSet, get_filename(file, ".xlsx"))
+            filename = get_filename(file, ".xlsx")
+            to_text(dataSet, filename)
             return dataSet, category.index, success
         except FileNotFoundError:
             success = False
