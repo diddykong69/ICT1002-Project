@@ -20,7 +20,7 @@ class MainWindow(QMainWindow):
         self.file_readers = {
             ".csv": read_csv,
             ".xlsx": read_xlsx,
-            None: self.none_reader
+            "": self.none_reader
         }
 
         widget = QWidget()
