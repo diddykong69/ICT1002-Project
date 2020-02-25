@@ -106,23 +106,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="show_stats">
-       <attribute name="title">
-        <string>Show Statistics</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="0">
-         <widget class="QListView" name="stats_view"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="export_stats_button">
-          <property name="text">
-           <string>Export Statistics</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="search_data">
        <attribute name="title">
         <string>Search Data</string>
@@ -211,18 +194,24 @@
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="help"/>
-    <addaction name="about"/>
+    <addaction name="export_stats_button"/>
+    <addaction name="help_button"/>
+    <addaction name="about_button"/>
    </widget>
    <addaction name="menuOptions"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="help">
+  <action name="export_stats_button">
+   <property name="text">
+    <string>Export Statistics</string>
+   </property>
+  </action>
+  <action name="help_button">
    <property name="text">
     <string>Help</string>
    </property>
   </action>
-  <action name="about">
+  <action name="about_button">
    <property name="text">
     <string>About GOTCHA</string>
    </property>
