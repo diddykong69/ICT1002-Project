@@ -20,7 +20,7 @@ def dataframe(reader, name):
 
 
 # function to create chart
-def createchart(type, dataframe, name):
+def createchart(type, dataframe, name, writer):
     sheet_name = str(name)
     dataframe.to_excel(writer, sheet_name=sheet_name)
 
@@ -65,9 +65,9 @@ def data_to_information(file, location):
     excel_file = location
     #file = pd.read_csv("UNSW-NB15_1_test.csv")
     writer = pd.ExcelWriter(excel_file, engine='xlsxwriter')
-    createchart('pie', dataframe(file, 'srcip'), 'source host')
-    createchart('pie', dataframe(file, 'dstip'), 'destination host')
-    createchart('column', dataframe(file, 'dsport'), 'destination port')
+    createchart('pie', dataframe(file, 'srcip'), 'source host', writer)
+    createchart('pie', dataframe(file, 'dstip'), 'destination host', writer)
+    createchart('column', dataframe(file, 'dsport'), 'destination port', writer)
     writer.save()
     writer.close()
 
