@@ -168,9 +168,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return stats_func(data, stats_file_name)
 
     def display_export_stats_status(self, results):
-        print(results)
         self.set_all_buttons()
-        success = True
+        success = results
         if success:
             QMessageBox.information(QMessageBox(), "Export Statistics Success",
                                     "Statistics successfully exported",
@@ -186,7 +185,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_all_buttons()
         self.set_buttons((self.log_button, self.features_button, self.read_button), False)
         self.create_worker(self.calculate_stats,
-                           (data_to_information, self.data, stats_file_name + '.xlsx'),
+                           (data_to_information, self.data, os.path.splitext(stats_file_name)[0] + '.xlsx'),
                            self.display_export_stats_status)
 
     @staticmethod
