@@ -10,12 +10,12 @@ def read_csv(file, feature):
             pd.set_option("display.width", None)
             # Index 1 / Column 2 of features csv is stored as category
             category = pd.read_csv(feature, encoding="ISO-8859-1", index_col=1)
-            # Reads data from file and stores in dataSet variable with category as column names
-            dataSet = pd.read_csv(file, encoding="ISO-8859-1", names=category.index, dtype="unicode").fillna(0)
+            # Reads data from file and stores in data_set variable with category as column names
+            data_set = pd.read_csv(file, encoding="ISO-8859-1", names=category.index, dtype="unicode").fillna(0)
             # Change the name of the text file to the name that user input
             filename = get_filename(file, ".csv")
-            to_text(dataSet, filename)
-            return dataSet, category.index, success
+            to_text(data_set, filename)
+            return data_set, category.index, success
         except FileNotFoundError:
             success = False
             return success
@@ -32,12 +32,12 @@ def read_xlsx(file, feature):
             pd.set_option("display.width", None)
             # Index 1 / Column 2 of features csv is stored as category
             category = pd.read_csv(feature, encoding="ISO-8859-1", index_col=1)
-            # Reads data from file and stores in dataSet variable with category as column names
-            dataSet = pd.read_excel(file, names=category.index).fillna(0)
+            # Reads data from file and stores in data_set variable with category as column names
+            data_set = pd.read_excel(file, names=category.index).fillna(0)
             # Change the name of the text file to the name that user input
             filename = get_filename(file, ".xlsx")
-            to_text(dataSet, filename)
-            return dataSet, category.index, success
+            to_text(data_set, filename)
+            return data_set, category.index, success
         except FileNotFoundError:
             success = False
             return success

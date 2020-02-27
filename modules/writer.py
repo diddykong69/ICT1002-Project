@@ -1,10 +1,10 @@
 import pandas as pd
 
 
-def write_csv(dataSet, location):
+def write_csv(data_set, location):
     success = True
     try:
-        dataSet.to_csv(location + ".csv", index=False)
+        data_set.to_csv(location + ".csv", index=False)
         return success
     except AttributeError:
         success = False
