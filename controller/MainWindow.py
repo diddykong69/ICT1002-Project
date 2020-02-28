@@ -27,11 +27,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.log_file_name = self.features_file_name = self.data = self.search_data = self.categories = self.read_success = ''
-        self.file_readers = {
-            ".csv": read_csv,
-            ".xlsx": read_xlsx,
-            "": self.none_reader
-        }
 
         self.model = DataModel(pd.DataFrame([["No file selected."]]))
         self.search_model = DataModel(pd.DataFrame([["No file selected."]]))
