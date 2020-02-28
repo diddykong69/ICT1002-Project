@@ -1,3 +1,9 @@
+"""
+Author      : Harish S/O Balamurugan
+Description : The "controller" file to handle the GUI interactions and respond accordingly.
+              This file also handles the integration of all the various modules.
+"""
+
 import sys
 import os
 from PyQt5.QtWidgets import *
@@ -175,6 +181,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         self.features_file_name = self.open_file_name_dialog(self.features_label, "Features")
 
+    @staticmethod
+    def none_reader(log, features):
+        return None, None, False
+
     # Read Files
     # Read Files - Thread input func - read log function for create_worker
     @staticmethod
@@ -224,8 +234,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             log_ext = os.path.splitext(log_file_name)[1]
             self.create_worker(self.read, ({
                     ".csv": read_csv,
-                    ".xlsx": read_xlsx
-                }.get(log_ext, lambda log, features: (None, None, None)),
+                    ".xlsx": read_xlsx,
+                    "": self.none_reader
+                }.get(log_ext),
                 log_file_name,
                 features_file_name), self.show_read_data)
         else:
