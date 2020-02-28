@@ -1,3 +1,8 @@
+"""
+Author      : Harish S/O Balamurugan
+Description : Entry file for GUI Program
+"""
+
 import sys
 import os
 from PyQt5.QtWidgets import *

@@ -1,3 +1,8 @@
+"""
+Author      : Harish S/O Balamurugan
+Description : Model class for GUI program to store pandas DataFrames and display it in TableView
+"""
+
 from PyQt5.QtCore import *
 
 
