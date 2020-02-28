@@ -136,7 +136,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file_name, _ = QFileDialog.getOpenFileName(QFileDialog(), "Select %s File" % file_type, "",
-                                                   "All Files (*.csv *.xlsx);;CSV Files (*.csv);;Excel Files (*.xlsx)",
+                                                   "CSV Files (*.csv)",
                                                    options=options)
         if file_name:
             label.setText(os.path.basename(file_name))
