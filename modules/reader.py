@@ -69,6 +69,7 @@ def show_output(data):
  
 def get_filename(filename, filetype):
     s = "\\"
+    filename = filename.name
     if s in filename:
         filename = filename.split(s)[-1].replace(filetype, ".txt")
         return filename
