@@ -1,10 +1,13 @@
 import pyfiglet
 import pandas as pd
 
-from modules.filter import *
-from modules.reader import *
-from modules.writer import *
-from modules.data_to_information import data_to_information
+import sys
+import os
+sys.path.insert(0, os.path.abspath('./../modules/'))
+from filter import *
+from reader import *
+from writer import *
+from data_to_information import data_to_information
 from pathlib import Path
 
 """
