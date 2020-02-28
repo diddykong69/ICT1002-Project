@@ -19,7 +19,7 @@ menu_list = ["Input file",
 submenu_list = ["Show statistics",
                 "Filter results",
                 "Export statistics",
-                "Export data"
+                "Export data",
                 "Back"]
 
 confirmation_menu_list = ['[n]: Stay',
