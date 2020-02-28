@@ -1,4 +1,9 @@
-import sys
+"""
+Author      : Raymous Ang
+Description : The data_to_information modules consists of functions that makes use of dataframe from other modules
+            and functions to create graphs and charts in a form of an excel file .xlsx when user exports statistics
+"""
+
 import pandas as pd
 from collections import Counter
 
