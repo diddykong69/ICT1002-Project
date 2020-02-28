@@ -1,3 +1,9 @@
+"""
+Author      : Teng Ming Hui
+Description : The filter module takes in search inputs from the user which will be used to filter the data and transforms
+            and makes sense of the data for the user's viewing.
+"""
+
 def search_data_frame(data_frame, searchedValue):
     """
     This function searches for searchedValue inside the data_frame
