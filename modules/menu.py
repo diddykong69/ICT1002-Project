@@ -1,3 +1,9 @@
+"""
+Author      : Isaac Choo
+Description : The menu module displays a Command-Line-Interface (CLI) menu to the user that allows the user to
+            interact with the menu to either input data, filter data, export data
+"""
+
 import pyfiglet
 import pandas as pd
 
