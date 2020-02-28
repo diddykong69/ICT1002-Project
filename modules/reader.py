@@ -1,6 +1,11 @@
+"""
+Author      : How Shun Han
+Description : The reader module parses input data from the user into a pandas data frame that will be used in other
+            modules and functions for processing and exporting
+"""
+
 import pandas as pd
 import pathlib
-
 
 
 def read_csv(file, feature):
