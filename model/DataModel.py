@@ -5,7 +5,6 @@ class DataModel(QAbstractTableModel):
     def __init__(self, data):
         QAbstractTableModel.__init__(self)
         self._data = data
-        print(self._data)
 
     def get_data(self):
         return self._data
