@@ -1,5 +1,6 @@
 import pandas as pd
-import csv
+import pathlib
+
 
 
 def read_csv(file, feature):
@@ -14,7 +15,6 @@ def read_csv(file, feature):
             dataSet = pd.read_csv(file, names=category.index, dtype="unicode").fillna(0)
             # Change the name of the text file to the name that user input
             filename = get_filename(file, ".csv")
-            to_text(dataSet, filename)
             return dataSet, category.index, success
         except FileNotFoundError:
             success = False
@@ -36,7 +36,6 @@ def read_xlsx(file, feature):
             dataSet = pd.read_excel(file, names=category.index).fillna(0)
             # Change the name of the text file to the name that user input
             filename = get_filename(file, ".xlsx")
-            to_text(dataSet, filename)
             return dataSet, category.index, success
         except FileNotFoundError:
             success = False
@@ -45,15 +44,6 @@ def read_xlsx(file, feature):
             success = False
             return success
 
-
-# Outputs data of file read into a text file for database purposes
-def to_text(data, location):
-    csv_file = data.to_csv("data.csv", index=False)
-    with open(location, "w") as output_file:
-        with open("data.csv", "r") as input_file:
-            [output_file.write("\t".join(row)+'\n') for row in csv.reader(input_file)]
-        output_file.close()
-        
  
 # When function is called, prints output to the user in a user friendly manner
 def show_output(data):
@@ -69,7 +59,10 @@ def show_output(data):
  
 def get_filename(filename, filetype):
     s = "\\"
-    filename = filename.name
+    if isinstance(filename, pathlib.Path):
+        filename = filename.name
+    else:
+        filename = filename
     if s in filename:
         filename = filename.split(s)[-1].replace(filetype, ".txt")
         return filename
