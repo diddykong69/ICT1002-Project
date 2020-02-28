@@ -337,7 +337,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         search_term = self.search_textedit.text()
         if search_term == '':
             self.search_model = DataModel(data=self.search_data)
-            self.search_table.setModel(self.search_data)
+            self.search_table.setModel(self.search_model)
             self.edit_search_result_label('Table Reset Success. You are now viewing the entire data set.')
             return
         self.search_table.setModel(self.search_model)
