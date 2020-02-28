@@ -1,4 +1,9 @@
-import pandas as pd
+"""
+Author      : How Shun Han
+Description : The writer modules takes in the data frame that has been processed by other modules and functions and
+            transform the data frame into an csv file when the user chooses to export the data.
+"""
+
 import pathlib
 
 
