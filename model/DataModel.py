@@ -1,3 +1,8 @@
+"""
+Author      : Harish S/O Balamurugan
+Description : Model class for GUI program to store pandas DataFrames and display it in TableView
+"""
+
 from PyQt5.QtCore import *
 
 
@@ -5,7 +10,6 @@ class DataModel(QAbstractTableModel):
     def __init__(self, data):
         QAbstractTableModel.__init__(self)
         self._data = data
-        print(self._data)
 
     def get_data(self):
         return self._data

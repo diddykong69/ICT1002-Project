@@ -16,7 +16,7 @@ menu_list = ["Input file",
              "View results",
              "Exit"]
 
-submenu_list = ["Show statistics",
+submenu_list = ["Show data",
                 "Filter results",
                 "Export statistics",
                 "Export data",
@@ -285,16 +285,14 @@ def submenu(file, categories):
                                      "[any other key]: No):\n")
 
             if exporting_option.lower() == 'y':
-                export_file = input("Please enter the name of the file to "
-                                    "export to: ")
+                export_file = input("Please enter a name for the file: ")
                 if Path(export_file).suffix is not '':
                     export_file = Path(export_file).with_suffix('')
 
                 export_csv(search_results, export_file)
 
         elif option_chosen == '3':
-            export_file = input("Please enter the name of the file to export"
-                                " to: ")
+            export_file = input("Please enter a name for the file: ")
 
             if export_file.endswith('.xlsx'):
                 write_success = data_to_information(file, export_file)
@@ -309,8 +307,7 @@ def submenu(file, categories):
                       "is NOT supported.")
 
         elif option_chosen == '4':
-            export_file = input("Please enter the name of the file to "
-                                "export to: ")
+            export_file = input("Please enter a name for the file: ")
 
             if Path(export_file).suffix is not '':
                 export_file = Path(export_file).with_suffix('')
